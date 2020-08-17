@@ -77,6 +77,8 @@ a = returnUrls(soup, "US_AFRL_CarrollHS")
 for each in a:
     print(each)
 
+print("this is a test")
+
 # run first file
 # this = return_webpage("https://2019.igem.org/Team:US_AFRL_CarrollHS")
 # print(this.text)
