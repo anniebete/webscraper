@@ -4,6 +4,7 @@ import pandas as pd
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse
 import os.path as osp
+import csv
 
 
 # returns list with all urls
@@ -56,26 +57,39 @@ def processPage(soup):
 # scrape page
 
 # compile team list
-teamList = []
+"""teamList = []
 teamData = pd.read_csv("iGEM All Teams.csv")
+teamData['page'] = requests.get(teamData['URL'])
+teamData['soup'] = BeautifulSoup(teamData['page'].content, 'html.parser')
+teamData['URLs_List'] = returnUrls(teamData['soup'], teamData['Team'])"""
 
-"""
-# prints keys
+# import team list using csv library
+with open('iGEM All Teams.csv', newline='') as file:
+    reader = csv.reader(file)
+    teamData = list(reader)
+
+for url in teamData:
+    print(url)
+
+
+"""# prints keys
 print(teamData.keys())
 
 # prints teamData (all columns)
 pd.options.display.width
 pd.set_option('display.width', None)
-print(teamData)
-"""
+print(teamData)"""
 
-page = requests.get("https://2019.igem.org/Team:US_AFRL_CarrollHS/WikiGuide")
+
+"""page = requests.get("https://2019.igem.org/Team:US_AFRL_CarrollHS/WikiGuide")
 soup = BeautifulSoup(page.content, 'html.parser')
-# processPage(soup)
+processPage(soup)
 a = returnUrls(soup, "US_AFRL_CarrollHS")
 
 for each in a:
-    print(each)
+    print(each)"""
+
+
 
 # run first file
 # this = return_webpage("https://2019.igem.org/Team:US_AFRL_CarrollHS")
