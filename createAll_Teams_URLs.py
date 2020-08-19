@@ -75,6 +75,11 @@ with open('iGEM All Teams.csv', newline='') as file:
     reader = csv.reader(file)
     teamData = list(reader)
 
+# setup for status
+i = 0
+length = len(teamData)
+print("Status:")
+
 # add all team page urls to teamData
 for team in teamData:
     name = team[0]
@@ -85,6 +90,10 @@ for team in teamData:
         page = requests.get(url)
         soup = BeautifulSoup(page.content, 'html.parser')
         team.append(returnUrls(soup, url))
+
+        # print updated status
+        print(str(i) + "/" + str(length))
+        i = i + 1
 
 
 # create new csv file to write team data to
