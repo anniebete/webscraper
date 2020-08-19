@@ -71,13 +71,9 @@ def processPage(soup):
 
 
 # import team list using csv library
-with open('iGEM All Teams.csv', newline='') as file:
+with open('Test.csv', newline='') as file:
     reader = csv.reader(file)
     teamData = list(reader)
-
-# create new csv file to write team data to
-with open('iGEM All Teams All Data.csv', 'w', newline='') as newFile:
-    writer = csv.writer(newFile, delimiter=',')
 
 # add all team page urls to teamData
 for team in teamData:
@@ -90,9 +86,14 @@ for team in teamData:
         soup = BeautifulSoup(page.content, 'html.parser')
         team.append(returnUrls(soup, url))
 
-    print(team)
 
-# writer(teamData)
+# create new csv file to write team data to
+with open('All Teams URLs.csv', 'w', newline='') as newFile:
+    writer = csv.writer(newFile, delimiter=',')
+    for team in teamData:
+        writer.writerow(team[10])
+
+newFile.close()
 
 """# prints keys
 print(teamData.keys())
