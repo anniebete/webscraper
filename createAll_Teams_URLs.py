@@ -38,38 +38,6 @@ def returnUrls(soup, url):
 
     return urlList
 
-
-# function to return webpage from a url
-def processPage(soup):
-    h = ["h1", "h2", "h3", "h4", "h5", "h6"]
-
-    headers = soup.find_all(h)
-    for heading in headers:
-        print(heading.text)
-
-        # determine if next element is heading
-        nextSibling: object = heading.next_sibling
-
-        # next sibling is not a header or blank
-        while nextSibling is not None and nextSibling.name not in h:
-            if nextSibling is not None and nextSibling.name not in h:
-                # perform analysis on text here
-                print(nextSibling)
-            nextSibling = nextSibling.next_sibling
-
-
-"""
-        for each in headers:
-            # print(each.text)
-            for child in each.descendants:
-                print(child)
-"""
-# for each in content:
-
-
-# function to check if url is part of the team's wiki and if not, to add it to the list of links
-
-
 # import team list using csv library
 with open('iGEM All Teams.csv', newline='') as file:
     reader = csv.reader(file)
