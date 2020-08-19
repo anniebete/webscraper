@@ -76,7 +76,7 @@ with open('iGEM All Teams.csv', newline='') as file:
     teamData = list(reader)
 
 # setup for status
-i = 0
+i = 1
 length = len(teamData)
 print("Status:")
 
