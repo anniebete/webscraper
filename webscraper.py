@@ -69,30 +69,30 @@ def processPage(soup):
 
 # function to check if url is part of the team's wiki and if not, to add it to the list of links
 
-# scrape page
 
 # import team list using csv library
 with open('iGEM All Teams.csv', newline='') as file:
     reader = csv.reader(file)
     teamData = list(reader)
 
-"""i = 1
+# create new csv file to write team data to
+with open('iGEM All Teams All Data.csv', 'w', newline='') as newFile:
+    writer = csv.writer(newFile, delimiter=',')
+
+# add all team page urls to teamData
 for team in teamData:
     name = team[0]
     url = team[8]
     page = ''
-    # if i % 10 == 0:
-        # sleep(20)
-        # i = i + 1
+
     while page == '':
         page = requests.get(url)
         soup = BeautifulSoup(page.content, 'html.parser')
         team.append(returnUrls(soup, url))
-        print(i)
-        i = i + 1
-        print(team)
 
-print(teamData)"""
+    print(team)
+
+# writer(teamData)
 
 """# prints keys
 print(teamData.keys())
@@ -110,8 +110,6 @@ a = returnUrls(soup, "http://2013.igem.org/Team:Carnegie_Mellon")
 
 for each in a:
     print(each)"""
-
-
 
 # run first file
 # this = return_webpage("https://2019.igem.org/Team:US_AFRL_CarrollHS")
