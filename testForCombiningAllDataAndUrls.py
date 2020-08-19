@@ -2,7 +2,7 @@ import csv
 
 # the goal of this script was to test how combining "TEST - iGEM Teams.cvs" and "TEST - iGEM URLs.cvs"
 # this goal was accomplished
-with open('TEST - iGEM Teams.csv', newline='') as file:
+with open('TEST - iGEM Teams.txt.csv', newline='') as file:
     reader = csv.reader(file)
     teamData = list(reader)
 

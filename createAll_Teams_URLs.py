@@ -71,7 +71,7 @@ def processPage(soup):
 
 
 # import team list using csv library
-with open('Test.csv', newline='') as file:
+with open('iGEM All Teams.csv', newline='') as file:
     reader = csv.reader(file)
     teamData = list(reader)
 
