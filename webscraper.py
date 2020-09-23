@@ -9,6 +9,7 @@ import string
 import xlsxwriter
 from time import sleep
 
+
 # function to return webpage from a url
 def processPage(soup, teamInfo, url):
     h = ["h1", "h2", "h3", "h4", "h5", "h6"]
@@ -29,33 +30,34 @@ def processPage(soup, teamInfo, url):
 
         # determine if next element is heading
         nextSibling: object = heading.next_sibling
-        #while nextSibling is None:
-          #  nextSibling: object = heading.next_sibling
+        # while nextSibling is None:
+        #  nextSibling: object = heading.next_sibling
 
-        #print("\n\nNEW ELEMENT")
-        #print("HEADING")
-        #print(nextSibling.name)
+        # print("\n\nNEW ELEMENT")
+        # print("HEADING")
+        # print(nextSibling.name)
 
         # next sibling is not a header or blank
         while nextSibling is not None and nextSibling.name not in h:
-             if nextSibling is not None and nextSibling.name not in h and nextSibling.name in text:
-                 #perform analysis on text here
-                 if nextSibling.text != "\n":
+            if nextSibling is not None and nextSibling.name not in h and nextSibling.name in text:
+                # perform analysis on text here
+                if nextSibling.text != "\n":
                     contentText.append(nextSibling.text)
-             nextSibling = nextSibling.next_sibling
+            nextSibling = nextSibling.next_sibling
 
         # create current row and add to allRows
         urlList = [url]
         headingList = [headingText]
         currentRow = teamInfo + urlList + headingList + contentText
-        print(currentRow)
+        # print(currentRow)
         allRows.append(currentRow)
 
     return allRows
 
-   # links = soup.find_all("a")
-  #  for link in links:
-   #     print(link)
+
+# links = soup.find_all("a")
+#  for link in links:
+#     print(link)
 
 """
         for each in headers:
@@ -77,16 +79,16 @@ with open('All Teams URLs.csv', newline='') as file:
 allData = list(zip(teamData, urls))
 
 # prints team list
-#for team in allData:
-    #print(team)
+# for team in allData:
+# print(team)
 
 # prints keys
 "print(teamData.keys())"
 
 # prints teamData (all columns)
-#pd.options.display.width
-#pd.set_option('display.width', None)
-#print(teamData)
+# pd.options.display.width
+# pd.set_option('display.width', None)
+# print(teamData)
 
 # test an individual page with returnUrls
 
@@ -95,7 +97,7 @@ outputList = []
 
 # counter for what team we are on
 y = 1
-length = allData.len
+length = len(allData)
 for team in allData:
     # counter
     print(str(y) + "/" + str(length))
@@ -103,14 +105,13 @@ for team in allData:
         page = requests.get(url)
         soup = BeautifulSoup(page.content, 'html.parser')
         outputList.append(processPage(soup, team[0], url))
-
     y = y + 1
 
 # turn list into Pandas dataframe
-pd0 = pd. DataFrame(outputList[0])
-pd1 = pd. DataFrame(outputList[1])
-pd2 = pd. DataFrame(outputList[2])
-pd3 = pd. DataFrame(outputList[3])
+pd0 = pd.DataFrame(outputList[0])
+pd1 = pd.DataFrame(outputList[1])
+pd2 = pd.DataFrame(outputList[2])
+pd3 = pd.DataFrame(outputList[3])
 
 outputPandas = pd.concat([pd0, pd1, pd2, pd3], axis=0)
 
