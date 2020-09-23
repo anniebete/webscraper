@@ -30,7 +30,7 @@ def processPage(soup, teamInfo, url):
         # determine if next element is heading
         nextSibling: object = heading.next_sibling
         #while nextSibling is None:
-            nextSibling: object = heading.next_sibling
+          #  nextSibling: object = heading.next_sibling
 
         #print("\n\nNEW ELEMENT")
         #print("HEADING")
@@ -98,7 +98,7 @@ y = 1
 length = allData.len
 for team in allData:
     # counter
-    print(str(i) + "/" + str(length))
+    print(str(y) + "/" + str(length))
     for url in team[1]:
         page = requests.get(url)
         soup = BeautifulSoup(page.content, 'html.parser')
