@@ -16,19 +16,21 @@ def processPage(soup, teamInfo, url):
 
     # create arrays for allRows and currentRow
     allRows = []
+    currentRow = []
     contentText = []
 
     content = soup.find('div', {"id": "content"})
-    #print(content.get_text())
+    # print(content.get_text())
 
     headers = content.find_all(h)
     for heading in headers:
+        contentText.clear()
         headingText = heading.text
 
         # determine if next element is heading
         nextSibling: object = heading.next_sibling
         #while nextSibling is None:
-          #  nextSibling: object = heading.next_sibling
+            nextSibling: object = heading.next_sibling
 
         #print("\n\nNEW ELEMENT")
         #print("HEADING")
@@ -38,11 +40,15 @@ def processPage(soup, teamInfo, url):
         while nextSibling is not None and nextSibling.name not in h:
              if nextSibling is not None and nextSibling.name not in h and nextSibling.name in text:
                  #perform analysis on text here
-                 contentText.append(nextSibling.text)
+                 if nextSibling.text != "\n":
+                    contentText.append(nextSibling.text)
              nextSibling = nextSibling.next_sibling
 
         # create current row and add to allRows
-        currentRow = list(zip(teamInfo, url, headingText, contentText))
+        urlList = [url]
+        headingList = [headingText]
+        currentRow = teamInfo + urlList + headingList + contentText
+        print(currentRow)
         allRows.append(currentRow)
 
     return allRows
@@ -87,29 +93,37 @@ allData = list(zip(teamData, urls))
 # create list for all output data
 outputList = []
 
-i = 1
+# counter for what team we are on
 y = 1
+length = allData.len
 for team in allData:
-    print("TEAM" + str(y))
+    # counter
+    print(str(i) + "/" + str(length))
     for url in team[1]:
-        print("Page #" + str(i))
-        print(url)
         page = requests.get(url)
         soup = BeautifulSoup(page.content, 'html.parser')
         outputList.append(processPage(soup, team[0], url))
-        i = i + 1
 
-        break
-    i = 1
     y = y + 1
-    break
 
 # turn list into Pandas dataframe
-outputPandas = pd.DataFrame(outputList)
+pd0 = pd. DataFrame(outputList[0])
+pd1 = pd. DataFrame(outputList[1])
+pd2 = pd. DataFrame(outputList[2])
+pd3 = pd. DataFrame(outputList[3])
+
+outputPandas = pd.concat([pd0, pd1, pd2, pd3], axis=0)
+
+"""# prints keys
+print(outputPandas.keys())
+
+# prints teamData (all columns)
+
+print(outputPandas)"""
 
 # write dataframe to excel file
 writeXLS = pd.ExcelWriter('iGEM_WEBSCRAPER_ALL_DATA.xlsx', engine='xlsxwriter')
-outputPandas.to_excel(writeXLS, sheet_name="All_Teams")
+outputPandas.to_excel(writeXLS, sheet_name="All_Teams", )
 writeXLS.save()
 
 """for each in a:
