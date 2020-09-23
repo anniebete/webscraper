@@ -11,21 +11,34 @@ from time import sleep
 # function to return webpage from a url
 def processPage(soup):
     h = ["h1", "h2", "h3", "h4", "h5", "h6"]
+    text = ["p", "a", "td", "li", "ul", "ol", "tr"]
 
-    headers = soup.find_all(h)
+    content = soup.find('div', {"id": "content"})
+    #print(content.get_text())
+
+    headers = content.find_all(h)
     for heading in headers:
         print(heading.text)
 
         # determine if next element is heading
         nextSibling: object = heading.next_sibling
+        #while nextSibling is None:
+          #  nextSibling: object = heading.next_sibling
+
+        #print("\n\nNEW ELEMENT")
+        #print("HEADING")
+        #print(nextSibling.name)
 
         # next sibling is not a header or blank
         while nextSibling is not None and nextSibling.name not in h:
-            if nextSibling is not None and nextSibling.name not in h:
-                # perform analysis on text here
-                print(nextSibling)
-            nextSibling = nextSibling.next_sibling
+             if nextSibling is not None and nextSibling.name not in h and nextSibling.name in text:
+                 #perform analysis on text here
+                 print(nextSibling.text)
+             nextSibling = nextSibling.next_sibling
 
+   # links = soup.find_all("a")
+  #  for link in links:
+   #     print(link)
 
 """
         for each in headers:
@@ -66,6 +79,7 @@ for url in allData[1][1]:
     page = requests.get(url)
     soup = BeautifulSoup(page.content, 'html.parser')
     processPage(soup)
+
     i = i + 1
 
 """for each in a:
