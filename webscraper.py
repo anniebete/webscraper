@@ -6,19 +6,24 @@ from urllib.parse import urlparse
 import os.path as osp
 import csv
 import string
+import xlsxwriter
 from time import sleep
 
 # function to return webpage from a url
-def processPage(soup):
+def processPage(soup, teamInfo, url):
     h = ["h1", "h2", "h3", "h4", "h5", "h6"]
     text = ["p", "a", "td", "li", "ul", "ol", "tr"]
+
+    # create arrays for allRows and currentRow
+    allRows = []
+    contentText = []
 
     content = soup.find('div', {"id": "content"})
     #print(content.get_text())
 
     headers = content.find_all(h)
     for heading in headers:
-        print(heading.text)
+        headingText = heading.text
 
         # determine if next element is heading
         nextSibling: object = heading.next_sibling
@@ -33,8 +38,14 @@ def processPage(soup):
         while nextSibling is not None and nextSibling.name not in h:
              if nextSibling is not None and nextSibling.name not in h and nextSibling.name in text:
                  #perform analysis on text here
-                 print(nextSibling.text)
+                 contentText.append(nextSibling.text)
              nextSibling = nextSibling.next_sibling
+
+        # create current row and add to allRows
+        currentRow = list(zip(teamInfo, url, headingText, contentText))
+        allRows.append(currentRow)
+
+    return allRows
 
    # links = soup.find_all("a")
   #  for link in links:
@@ -59,28 +70,47 @@ with open('All Teams URLs.csv', newline='') as file:
 
 allData = list(zip(teamData, urls))
 
-"""# prints team list
-for team in allData:
-    print(team)"""
+# prints team list
+#for team in allData:
+    #print(team)
 
-"""# prints keys
-print(teamData.keys())
+# prints keys
+"print(teamData.keys())"
 
 # prints teamData (all columns)
-pd.options.display.width
-pd.set_option('display.width', None)
-print(teamData)"""
+#pd.options.display.width
+#pd.set_option('display.width', None)
+#print(teamData)
 
 # test an individual page with returnUrls
-i = 1
-for url in allData[1][1]:
-    print("Page #" + str(i))
-    print(url)
-    page = requests.get(url)
-    soup = BeautifulSoup(page.content, 'html.parser')
-    processPage(soup)
 
-    i = i + 1
+# create list for all output data
+outputList = []
+
+i = 1
+y = 1
+for team in allData:
+    print("TEAM" + str(y))
+    for url in team[1]:
+        print("Page #" + str(i))
+        print(url)
+        page = requests.get(url)
+        soup = BeautifulSoup(page.content, 'html.parser')
+        outputList.append(processPage(soup, team[0], url))
+        i = i + 1
+
+        break
+    i = 1
+    y = y + 1
+    break
+
+# turn list into Pandas dataframe
+outputPandas = pd.DataFrame(outputList)
+
+# write dataframe to excel file
+writeXLS = pd.ExcelWriter('iGEM_WEBSCRAPER_ALL_DATA.xlsx', engine='xlsxwriter')
+outputPandas.to_excel(writeXLS, sheet_name="All_Teams")
+writeXLS.save()
 
 """for each in a:
     print(each)"""
