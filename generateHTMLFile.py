@@ -1,3 +1,8 @@
+def printRow(row):
+    # print td for first few columns
+
+    # combine data for the content columns
+
 # print the start of the HTML document
 print("{{OhioState}}")
 print("<html>")
@@ -68,7 +73,9 @@ print("  <tbody>")
 
 # get data from iGEM_WEBSCRAPER_ALL_DATA.xlsx
 
+
 # print HTML for each row
+printRow()
 
 # print HTML close
 print("  </tbody>")
