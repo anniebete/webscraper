@@ -7,7 +7,7 @@ import os.path as osp
 import csv
 import string
 import xlsxwriter
-from time import sleep
+import time
 
 
 # function to return webpage from a url
@@ -23,7 +23,8 @@ def processPage(soup, teamInfo, url):
     content = soup.find('div', {"id": "content"})
     # print(content.get_text())
 
-    headers = content.find_all(h)
+
+    headers = soup.find_all(h)
     for heading in headers:
         contentText.clear()
         headingText = heading.text
