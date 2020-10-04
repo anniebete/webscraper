@@ -74,7 +74,7 @@ with open('iGEM All Teams.csv', newline='') as file:
 
 # assign iGEM urls to urls
 with open('All Teams URLs.csv', newline='') as file:
-    reader = csv.reader(file)
+    reader = csv.reader(file, delimiter='\\')
     urls = list(reader)
 
 allData = list(zip(teamData, urls))
@@ -97,6 +97,7 @@ allData = list(zip(teamData, urls))
 outputList = []
 
 # counter for what team we are on
+
 y = 1
 length = len(allData)
 for team in allData:
@@ -109,19 +110,15 @@ for team in allData:
     y = y + 1
 
 # turn list into Pandas dataframe
-pd0 = pd.DataFrame(outputList[0])
-pd1 = pd.DataFrame(outputList[1])
-pd2 = pd.DataFrame(outputList[2])
-pd3 = pd.DataFrame(outputList[3])
+outputPandas = pd.DataFrame(outputList)
 
-outputPandas = pd.concat([pd0, pd1, pd2, pd3], axis=0)
 
-"""# prints keys
+# prints keys
 print(outputPandas.keys())
 
 # prints teamData (all columns)
 
-print(outputPandas)"""
+print(outputPandas)
 
 # write dataframe to excel file
 writeXLS = pd.ExcelWriter('iGEM_WEBSCRAPER_ALL_DATA.xlsx', engine='xlsxwriter')
