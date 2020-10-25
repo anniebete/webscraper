@@ -100,14 +100,15 @@ outputList = []
 
 y = 1
 length = len(allData)
-for team in allData:
-    # counter
-    print(str(y) + "/" + str(length))
-    for url in team[1]:
-        page = requests.get(url)
-        soup = BeautifulSoup(page.content, 'html.parser')
-        outputList.append(processPage(soup, team[0], url))
-    y = y + 1
+for i in range(1, length+1):
+    for team in allData:
+        # counter
+        print(str(y) + "/" + str(length))
+        for url in team[1]:
+            page = requests.get(url)
+            soup = BeautifulSoup(page.content, 'html.parser')
+            outputList.append(processPage(soup, team[0], url))
+        y = y + 1
 
 # turn list into Pandas dataframe
 outputPandas = pd.DataFrame(outputList)
